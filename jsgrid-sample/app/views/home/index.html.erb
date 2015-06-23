@@ -1,2 +1,43 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<% content_for :head do %>
+    <link href="http://js-grid.com/css/jsgrid.min.css" rel="stylesheet" />
+    <link href="http://js-grid.com/css/jsgrid-theme.min.css" rel="stylesheet" />
+<% end %>
+
+<% content_for :scripts do %>
+    <script src="http://js-grid.com/js/jsgrid.min.js"></script>
+    <script>
+        $(function() {
+            $("#jsGrid").jsGrid({
+                height: "80%",
+                width: "100%",
+                filtering: true,
+                inserting: true,
+                editing: true,
+                sorting: true,
+                paging: true,
+                autoload: true,
+                pageSize: 10,
+                pageButtonCount: 5,
+                deleteConfirm: "Do you really want to delete client?",
+                controller: {
+                    loadData: function(filter) {
+                        return $.ajax({
+                            type: "GET",
+                            url: "/clients",
+                            data: filter
+                        });
+                    }
+                },
+                fields: [
+                    { name: "name", type: "text", width: 150 },
+                    { name: "age", type: "number", width: 50, filtering: false },
+                    { name: "address", type: "text", width: 200 },
+                    { name: "married", type: "checkbox", title: "Is Married", filtering: false, sorting: false },
+                    { type: "control" }
+                ]
+            });
+        });
+    </script>
+<% end %>
+
+<div id="jsGrid"></div>

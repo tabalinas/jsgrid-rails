@@ -1,7 +1,6 @@
 class ClientsController < ApplicationController
-
     def index
-        @clients = Client.all
+        render json: Client.all
     end
 
     def show
