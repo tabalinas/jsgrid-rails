@@ -1,45 +1,26 @@
 class ClientsController < ApplicationController
+    skip_before_action :verify_authenticity_token
+
     def index
         render json: Client.all
     end
 
-    def show
-        @client = Client.find(params[:id])
-    end
-
-    def new
-    end
-
-    def edit
-        @client = Client.find(params[:id])
-    end
-
     def create
-        @client = Client.new(client_params)
+        @client = Client.new(name: params["name"], age: params["age"], address: params["address"], married: params["married"])
         @client.save
-
-        redirect_to @client
+        render json: @client
     end
 
     def update
         @client = Client.find(params[:id])
-
-        if(@client.update(client_params))
-            redirect_to @client
-        else
-            render 'edit'
-        end
+        @client.update(name: params["name"], age: params["age"], address: params["address"], married: params["married"])
+        render json: @client
     end
 
     def destroy
         @client = Client.find(params[:id])
         @client.destroy
-
-        redirect_to clients_path
+        render nothing: true, status: 200
     end
 
-    private
-        def client_params
-            params.require(:client).permit(:name, :age, :address, :married)
-        end
 end

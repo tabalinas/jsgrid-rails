@@ -26,6 +26,26 @@
                             url: "/clients",
                             data: filter
                         });
+                    },
+                    insertItem: function(item) {
+                        return $.ajax({
+                            type: "POST",
+                            url: "/clients",
+                            data: item
+                        });
+                    },
+                    updateItem: function(item) {
+                        return $.ajax({
+                            type: "PUT",
+                            url: "/clients/" + item.id,
+                            data: item
+                        });
+                    },
+                    deleteItem: function(item) {
+                        return $.ajax({
+                            type: "DELETE",
+                            url: "/clients/" + item.id
+                        });
                     }
                 },
                 fields: [
